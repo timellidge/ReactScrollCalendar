@@ -1,0 +1,167 @@
+@import "~office-ui-fabric-react/dist/sass/References.scss";
+
+.ReactScrollCalendar {
+  $BlueDark-2: #40434a;
+  $BlueDark-1: #343d56;
+  $BlueDark: #1b2952;
+  $BlueDark1: #1b2952;
+  $BlueDark2: #1b2952;
+  $Blue-2: #204d6c;
+  $Blue-1: #2c6992;
+  $Blue: #3681b5;
+  $Blue1: #afcde1;
+  $Blue2: #d7e6f0;
+  $Orange: #ff6a13;
+  $Orange1: #ffc3a1;
+  $Orange2: #ffe1d0;
+  $Grey-1: #bfb7af;
+  $Grey: #d7d2cb;
+  $Grey1: #efedea;
+  $Grey2: #f7f6f5;
+  $Red: #e03c03;
+  $Yellow: #ffb42f;
+  $SeaGreen: #01bcb8;
+  $Green: #8ac552;
+  $BlueIce: #97caeb;
+
+  box-sizing: border-box;
+  display: flex;
+
+  .calendarContaner {
+    width: 100%;
+    box-sizing: border-box;
+    // position: absolute;
+
+    .navigationheader {
+      box-sizing: border-box;
+      // background-color: $Blue1;
+
+      ul {
+        display: flex;
+        padding: 2px 0 4px 0;
+        margin: 0px;
+      }
+
+      li {
+        flex: 0 0 8%;
+        list-style-type: none;
+        text-align: center;
+        border-right: 1px solid $Grey-1;
+
+        .monthname {
+          color: $BlueDark-2;
+          font-weight: 500;
+          font-size: 0.8rem;
+        }
+        .activemonthname {
+          border-bottom: 3px solid $Orange;
+          color: $Orange;
+          font-weight: 700;
+          font-size: 1rem;
+          background-color: $Blue2;
+          padding: 0 10px;
+        }
+      }
+    }
+    .calendarheader {
+      display: grid;
+      grid-template-columns: repeat(7, 14.25%);
+      box-sizing: border-box;
+      background-color: $Grey;
+      padding: 4px 0px;
+      margin: 0px 16px 0 0;
+      color: $BlueDark-1;
+      font-weight: 500;
+      text-align: center;
+      font-size: 1rem;
+
+      .dayname {
+        border-right: 2px solid #ffffff;
+      }
+    }
+
+    .calendarScrollContainer {
+      width: 100%;
+      height: 800px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+
+    .daysContainer {
+      display: grid;
+      grid-template-columns: repeat(7, 14.25%);
+      grid-template-rows: repeat(53, 150px);
+      box-sizing: border-box;
+
+      .day {
+        box-sizing: content-box;
+        border-left: 1px solid $Grey-1;
+        display: table-cell;
+        position: relative;
+
+        h5 {
+          background-color: $Blue-2;
+          color: white;
+          margin: 0px;
+          text-align: center;
+          font-size: 0.9rem;
+          padding: 3px;
+        }
+
+        .event {
+          width: 100%;
+          color: $BlueDark-2;
+          padding: 3px;
+          position: absolute;
+          box-sizing: content-box;
+        }
+
+        .event[data-row="row1"] {
+          margin-top: 5px;
+          background-color: $SeaGreen;
+        }
+        .event[data-row="row2"] {
+          margin-top: 35px;
+          background-color: $Red;
+        }
+        .event[data-row="row3"] {
+          margin-top: 65px;
+          background-color: $Green;
+        }
+        .event[data-row="row4"] {
+          margin-top: 90px;
+          background-color: $Yellow;
+        }
+      }
+
+      .day:first-child {
+        grid-column: 5;
+      }
+
+      .day[data-month="1"] h5,
+      .day[data-month="3"] h5,
+      .day[data-month="5"] h5,
+      .day[data-month="7"] h5,
+      .day[data-month="9"] h5,
+      .day[data-month="11"] h5 {
+        background-color: $Blue;
+        color: $Grey2;
+      }
+
+      .day[id*="d0"],
+      .day[id*="d6"] {
+        background-color:$Grey1;
+      }
+    }
+  }
+}
+
+:global {
+  #fixed {
+    position: absolute;
+    top: 1000px;
+    left: 200px;
+    height: 30px;
+    background-color: #8ac552;
+  }
+}

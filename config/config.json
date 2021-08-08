@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "react-scroll-calendar-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/ReactScrollCalendar/ReactScrollCalendarWebPart.js",
+          "manifest": "./src/webparts/ReactScrollCalendar/ReactScrollCalendarWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ReactScrollCalendarWebPartStrings": "lib/webparts/ReactScrollCalendar/loc/{locale}.js"
+  }
+}
