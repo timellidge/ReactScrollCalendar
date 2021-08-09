@@ -5,24 +5,17 @@ import * as moment from 'moment';
 import EventCell from './EventCell';
 import { getItemClassNames } from 'office-ui-fabric-react/lib/components/ContextualMenu/ContextualMenu.classNames';
 
+// note this any[] trick if it worked then it will be useful
 export interface IDayCellProps {
   thisdate: string;
   index: number;
+  events: any[];
 }
-
-// PRETEND DATA
-const diaryItems = [
-  {"start":"2021/02/03", "end":"2021/02/08", "Title":"Item1", "irow":"row1"},
-  {"start":"2021/02/05", "end":"2021/02/18", "Title":"Item2", "irow":"row2"},
-  {"start":"2021/02/07", "end":"2021/02/18", "Title":"Item3", "irow":"row3"},
-  {"start":"2021/03/03", "end":"2021/03/08", "Title":"Item4", "irow":"row4"}
-]
-
 
 const DayCell: React.FunctionComponent<IDayCellProps> = (props) => {
   // how do i get the iteration of the called array into here ? ie the index or key?
   const theDay = moment(props.thisdate);
-  const items = diaryItems.filter(ditem => (theDay >= moment(ditem.start) && theDay <= moment(ditem.end) ));
+  const items = props.events;
   console.log(theDay);
   console.log(items);
   const theID = 'w' + theDay.week() + 'd' + theDay.weekday();
