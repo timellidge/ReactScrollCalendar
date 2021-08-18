@@ -9,6 +9,7 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import IReactScrollCalendarProps from './components/IReactScrollCalendarProps';
 import ReactScrollCalendar from './components/ReactScrollCalendar';
+import { sp } from '@pnp/sp';
 
 import { values } from 'office-ui-fabric-react';
 
@@ -16,10 +17,25 @@ export interface IReactScrollCalendarWebPartProps {
   description: string;
   starttime: string;
   endtime: string;
-
+  listname: string;
+  listurl: string;
 }
 
 export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IReactScrollCalendarWebPartProps> {
+
+  protected onInit(): Promise<void> {
+    return super.onInit().then((_) => {
+      sp.setup ({
+        spfxContext: this.context,
+        sp:{
+          headers:{
+            Accept: "application/json; odata=nometadata"
+          },
+        }
+      });
+    });
+  }
+
 
   public render(): void {
     const element: React.ReactElement<IReactScrollCalendarProps> = React.createElement(
@@ -27,7 +43,9 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
       {
         starttime: this.properties.starttime,
         endtime: this.properties.endtime,
-        day: 0
+        day: 0,
+        listname: this.properties.listname,
+        listurl: this.properties.listurl
       }
     );
     ReactDom.render(element, this.domElement);
@@ -65,6 +83,12 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
                   label: "End of working day",
                   options: PMOptions,
                   selectedKey: "16:30"
+                }),
+                PropertyPaneTextField('listname', {
+                  label: "List Name"
+                }),
+                PropertyPaneTextField('listurl', {
+                  label: "List Url"
                 })
               ]
             }
