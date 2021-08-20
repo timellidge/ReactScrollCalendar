@@ -48,10 +48,7 @@ for (let i = 0; i < 730; i++) {
   console.log (theDay, firstdays, items);
 }
 
-
-
-
-const ReactScrollCalendarApp: React.FunctionComponent<IReactScrollCalendarProps> = (props) => {
+function ReactScrollCalendar(props:any) {
   return (
     <div className={styles.ReactScrollCalendar}>
       <div className={styles.calendarContaner}>
@@ -78,9 +75,40 @@ const ReactScrollCalendarApp: React.FunctionComponent<IReactScrollCalendarProps>
     </div>
 
   );
-};
+}
+export default  ReactScrollCalendar;
 
-export default ReactScrollCalendar;
+
+// const ReactScrollCalendarApp: React.FunctionComponent<IReactScrollCalendarProps> = (props) => {
+//   return (
+//     <div className={styles.ReactScrollCalendar}>
+//       <div className={styles.calendarContaner}>
+//         <div className={styles.navigationheader}>
+//           <ul>
+//           {monthNames.map((monthName, i) => (
+//             <NavigationCell key = {i} thismonth={monthName} index={i}/>
+//           ))}
+//           </ul>
+//         </div>
+//         <div className={styles.calendarheader}>
+//           {dayNames.map((dayname, i) => (
+//             <DayHeaderCell thisday={dayname} index={i}  key = {i+1} />
+//           ))}
+//         </div>
+//         <div className={styles.calendarScrollContainer} id='scrollcontainer'>
+//           <div className={styles.daysContainer} id='dayscontainer'>
+//             {days.map((day, i) => (
+//               <DayCell thisdate={day.itemDate} index={i}  key = {i+1} firsts={day.firsts} events={day.events} holiday={day.holiday}/>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+
+//   );
+// };
+
+
 
 private _getSPEvents() {
   var uri = "https://plreonboardingcom.sharepoint.com/sites/CPSPlayPit/Lists/Events/";
