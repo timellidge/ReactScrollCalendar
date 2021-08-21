@@ -10,12 +10,11 @@ export interface IEventCellProps {
   index:number;
 }
 
-const EventCell: React.FunctionComponent<IEventCellProps> = (props) => {
+export default function EventCell(props:any) {
     //const [count, setCount] = useState(0);
     //THI IS THE WEEKDAY HEADERS
     return (<div className={styles.event} data-row={props.irow}> {props.thistitle}</div>);
-};
+}
 
-export default EventCell;
 
 

@@ -1,21 +1,21 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-property-pane';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import IReactScrollCalendarProps from './components/IReactScrollCalendarProps';
 import ReactScrollCalendarApp from './components/ReactScrollCalendarApp';
 import { sp } from '@pnp/sp';
 
-//import { values } from 'office-ui-fabric-react';
+import { SPHttpClient, SPHttpClientResponse} from '@microsoft/sp-http';
 
 export interface IReactScrollCalendarWebPartProps {
   description: string;
   listname: string;
   listurl: string;
+  ctx:WebPartContext;
 }
 
 export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IReactScrollCalendarWebPartProps> {
@@ -33,14 +33,14 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
     });
   }
 
-
   public render(): void {
     const element: React.ReactElement<IReactScrollCalendarProps> = React.createElement(
       ReactScrollCalendarApp,
       {
         day: 0,
         listname: this.properties.listname,
-        listurl: this.properties.listurl
+        listurl: this.properties.listurl,
+        ctx:this.context
       }
     );
     ReactDom.render(element, this.domElement);
@@ -50,14 +50,12 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 
-
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-
     return {
       pages: [
         {
           header: {
-            description: "Configure the Scrolll Calendar web part"
+            description: "Configure the Scroll Calendar web part"
           },
           groups: [
             {

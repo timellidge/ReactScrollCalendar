@@ -7,12 +7,10 @@ export interface IDayHeaderCellProps {
   index: number;
 }
 
-const DayHeaderCell: React.FunctionComponent<IDayHeaderCellProps> = (props) => {
+export default function DayHeaderCell(props:any) {
     //const [count, setCount] = useState(0);
     //THI IS THE WEEKDAY HEADERS
     return (<div className={styles.dayname} data-dayno={props.index}>{props.thisday}</div>);
-};
-
-export default DayHeaderCell;
+}
 
 

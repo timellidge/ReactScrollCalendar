@@ -5,115 +5,122 @@ import DayCell from './DayCell';
 import DayHeaderCell from './DayHeaderCell';
 import NavigationCell from './NavigationCell';
 import IReactScrollCalendarProps from './IReactScrollCalendarProps';
+// simple old version not the PNP one
 
-import { sp, Web} from '@pnp/sp/presets/all';
-import { SPListData,SPEventItem} from "./IModels"
+import { SPHttpClient, SPHttpClientResponse} from '@microsoft/sp-http';
+///import { sp, SPHttpClient, Web } from '@pnp/sp/presets/all';
+import { SPListData, SPEventItem } from "./IModels";
 
 // PRETEND DATA
-const diaryItems = [
-  {"EventDate":"2021/02/03/", "EndDate":"2021/02/08/", "Title":"Item1", "irow":"row1"},
-  {"EventDate":"2021/02/05/", "EndDate":"2021/02/18/", "Title":"Item2", "irow":"row2"},
-  {"EventDate":"2021/02/07/", "EndDate":"2021/02/18/", "Title":"Item3", "irow":"row3"},
-  {"EventDate":"2021/03/03/", "EndDate":"2021/03/08/", "Title":"Item4", "irow":"row4"},
-  {"EventDate":"2021/08/07/", "EndDate":"2021/08/18/", "Title":"Item3", "irow":"row1"},
-  {"EventDate":"2021/08/03/", "EndDate":"2021/08/08/", "Title":"Item4", "irow":"row2"},
-  {"EventDate":"2021/07/13/", "EndDate":"2021/07/20/", "Title":"OFFICE", "irow":"row1"}
-];
-
-//build soem data structures fro the react components to iterate over Days
-const dayNames = new Array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
-dayNames.map((dayname, i) => (
- console.log(dayname, i)
-));
-// and Months  CBA with Yeas just yet
-const monthNames = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-
-// do i need to explain this ? but its in the past at the start of the Year
-const EventDate = moment().startOf('year');
+// const diaryItems = [
+//   { "EventDate": "2021/02/03/", "EndDate": "2021/02/08/", "Title": "Item1", "irow": "row1" },
+//   { "EventDate": "2021/02/05/", "EndDate": "2021/02/18/", "Title": "Item2", "irow": "row2" },
+//   { "EventDate": "2021/02/07/", "EndDate": "2021/02/18/", "Title": "Item3", "irow": "row3" },
+//   { "EventDate": "2021/03/03/", "EndDate": "2021/03/08/", "Title": "Item4", "irow": "row4" },
+//   { "EventDate": "2021/08/07/", "EndDate": "2021/08/18/", "Title": "Item3", "irow": "row1" },
+//   { "EventDate": "2021/08/03/", "EndDate": "2021/08/08/", "Title": "Item4", "irow": "row2" },
+//   { "EventDate": "2021/07/13/", "EndDate": "2021/07/20/", "Title": "OFFICE", "irow": "row1" }
+// ];
 
 
 
+export default class ReactScrollCalendarApp extends React.Component<IReactScrollCalendarProps> {
+  //build some data structures for the react components to iterate over
+  private dayNames = new Array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+  // and Months CBA with Years just yet
+  private monthNames = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+  // do i need to explain this ? but its in the past at the start of the Year its my reference date
+  private RefDate = moment().startOf('year');
 
-const days = new Array(730); // create an empty array with length 720 items Dont care whats in it
-// now i need to populate the array with dates to go off into the future
-// i can process the data here to make a more complex structure to pass to the days... ie each day contains and array of events
-// it may work ... but is it very react?... not sure but it is quite me...
-for (let i = 0; i < 730; i++) {
-  const theDay =  moment(EventDate).add(i, 'days').startOf('day'); // thsi kind of pre-proesses the data every day is a data structure of daye and events for that day - all very neat : maybe the mondays and the fist days need some special treatment so i can render them in react
-  const allEvents = diaryItems.filter(ditem => (theDay >= moment(ditem.EventDate) && theDay <= moment(ditem.EndDate).startOf('day'))); // first filter by date to get a sub set
-  const firstdays = allEvents.filter(fitem => (theDay <= moment(fitem.EventDate).endOf('day'))); // then see if its the first...
-  const items  = allEvents.filter(nitem => (theDay > moment(nitem.EventDate).startOf('day'))); // then filter by not office events
-  const office = allEvents.filter(oitem => ("OFFICE" === oitem.Title)); // then office events
-  days[i] = {"itemDate": theDay, "holiday": office, "firsts":firstdays, "events": items};
-  console.log (theDay, firstdays, items);
-}
+  private pdays = new Array(365);
 
-function ReactScrollCalendar(props:any) {
-  return (
-    <div className={styles.ReactScrollCalendar}>
-      <div className={styles.calendarContaner}>
-        <div className={styles.navigationheader}>
-          <ul>
-          {monthNames.map((monthName, i) => (
-            <NavigationCell key = {i} thismonth={monthName} index={i}/>
-          ))}
-          </ul>
-        </div>
-        <div className={styles.calendarheader}>
-          {dayNames.map((dayname, i) => (
-            <DayHeaderCell thisday={dayname} index={i}  key = {i+1} />
-          ))}
-        </div>
-        <div className={styles.calendarScrollContainer} id='scrollcontainer'>
-          <div className={styles.daysContainer} id='dayscontainer'>
-            {days.map((day, i) => (
-              <DayCell thisdate={day.itemDate} index={i}  key = {i+1} firsts={day.firsts} events={day.events} holiday={day.holiday}/>
+  // set the statefull things my React is going to react to
+  public state = {
+    diaryItems:[],
+    days:[]
+  };
+
+  // thanks to deshon these are some bog standard talk to sp calls
+  private _client:SPHttpClient = this.props.ctx.spHttpClient;
+
+  private async _getSPData(client:SPHttpClient, url:string):Promise<any> {
+    let response:SPHttpClientResponse = await client.get(url, SPHttpClient.configurations.v1);
+    let json = response.json();
+    return json;
+  }
+
+  private _getEvents(){
+    let url = "https://plreonboardingcom.sharepoint.com/sites/CPSPlayPit/_api/web/lists/getByTitle('Events')/items";
+    this._getSPData(this._client, url).then(d => {
+      let data = d.value;
+      this.setState({diaryItems:data});
+    });
+  }
+
+  public componentDidMount(){
+    this._getEvents();
+    // now i need to populate the array with dates to go off into the future
+    // i can process the data here to make a more complex structure to pass to the days... ie each day contains and array of events
+    // it may work ... but is it very react?... not sure but it is quite me...
+    console.log("INITIAL DIARY ITEMS");
+    console.log(this.state.diaryItems);
+    // whilst we are at setting the events state lets populate the days as well not quite an empty array
+    for (let i = 0; i < 365; i++) {
+      this.pdays[i] = {"Events": []};
+    }
+    // OK Now pop that lot into state...
+    this.setState({days: this.pdays});
+  }
+
+  public componentDidUpdate(){
+    console.log("DIARY ITEMS UPDATE");
+    console.log(this.state.diaryItems);
+    // now we habve the data lets pop it into the array of days
+    this.state.diaryItems.forEach(ev => {
+      const startIndex =  moment(ev.EventDate).diff(this.RefDate, 'days');
+      const weekDay =  moment(ev.EventDate).weekday();
+      // do the first day
+      this.state.days[startIndex].Events.push({"Title": ev.Title, "Category": ev.Category, "manager": ev.ManagerId, "Desc":ev.Description, "FirstDay": true, "Weekday": weekDay});
+      const eventDuration =  moment(ev.EndDate).diff(ev.EventDate, 'days');
+      //we already covered the first day so now we are just after the rest of them
+      for (let i = 1; i <= eventDuration ; i++ ){
+        // prety much the same but its not a first day, suppose we can add a day No to help with the CSS + Monday
+        this.state.days[startIndex+i].Events.push({"Title": ev.Title, "Category": ev.Category, "manager": ev.ManagerId, "Desc":ev.Description, "FirstDay": false, "Weekday": weekDay});
+      }
+      //console.log(startIndex, eventDuration, weekDay);
+    });
+    console.log("STATE DAYS");
+    console.log(this.state.days);
+    //this.setState({days: this.pdays});
+  }
+
+
+
+  public render(): React.ReactElement<IReactScrollCalendarProps> {
+    return (
+      <div className={styles.ReactScrollCalendar}>
+        <div className={styles.calendarContaner}>
+          <div className={styles.navigationheader}>
+            <ul>
+              {this.monthNames.map((monthName, i) => (
+                <NavigationCell key={i} thismonth={monthName} index={i} />
+              ))}
+            </ul>
+          </div>
+          <div className={styles.calendarheader}>
+            {this.dayNames.map((dayname, i) => (
+              <DayHeaderCell thisday={dayname} index={i} key={i} />
             ))}
+          </div>
+          <div className={styles.calendarScrollContainer} id='scrollcontainer'>
+            <div className={styles.daysContainer} id='dayscontainer'>
+              {this.state.days.map((day, i) => (
+                <DayCell thisdate={this.RefDate} index={i} key={i} Events={day.Events} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-  );
-}
-export default  ReactScrollCalendar;
-
-
-// const ReactScrollCalendarApp: React.FunctionComponent<IReactScrollCalendarProps> = (props) => {
-//   return (
-//     <div className={styles.ReactScrollCalendar}>
-//       <div className={styles.calendarContaner}>
-//         <div className={styles.navigationheader}>
-//           <ul>
-//           {monthNames.map((monthName, i) => (
-//             <NavigationCell key = {i} thismonth={monthName} index={i}/>
-//           ))}
-//           </ul>
-//         </div>
-//         <div className={styles.calendarheader}>
-//           {dayNames.map((dayname, i) => (
-//             <DayHeaderCell thisday={dayname} index={i}  key = {i+1} />
-//           ))}
-//         </div>
-//         <div className={styles.calendarScrollContainer} id='scrollcontainer'>
-//           <div className={styles.daysContainer} id='dayscontainer'>
-//             {days.map((day, i) => (
-//               <DayCell thisdate={day.itemDate} index={i}  key = {i+1} firsts={day.firsts} events={day.events} holiday={day.holiday}/>
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-
-//   );
-// };
-
-
-
-private _getSPEvents() {
-  var uri = "https://plreonboardingcom.sharepoint.com/sites/CPSPlayPit/Lists/Events/";
-  this._getSPEvents(uri)
-  .then(data => {
-    this.setState({})
-  });
+    );
+  }
 }
