@@ -123,19 +123,28 @@
           box-sizing: content-box;
         }
 
-        .event[data-row="row1"] {
+        .event.first {
+          border-left: 3ps solid pink;
+          width: 100%;
+          color: $BlueDark-2;
+          padding: 3px;
+          position: absolute;
+          box-sizing: content-box;
+        }
+
+        .event[data-row="0"] {
           margin-top: 5px;
           background-color: $SeaGreen;
         }
-        .event[data-row="row2"] {
+        .event[data-row="1"] {
           margin-top: 35px;
           background-color: $Red;
         }
-        .event[data-row="row3"] {
+        .event[data-row="2"] {
           margin-top: 65px;
           background-color: $Green;
         }
-        .event[data-row="row4"] {
+        .event[data-row="3"] {
           margin-top: 90px;
           background-color: $Yellow;
         }

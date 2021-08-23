@@ -3,19 +3,19 @@ import * as ReactDom from 'react-dom';
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
+
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import IReactScrollCalendarProps from './components/IReactScrollCalendarProps';
 import ReactScrollCalendarApp from './components/ReactScrollCalendarApp';
 import { sp } from '@pnp/sp';
 
-import { SPHttpClient, SPHttpClientResponse} from '@microsoft/sp-http';
-
 export interface IReactScrollCalendarWebPartProps {
   description: string;
   listname: string;
   listurl: string;
   ctx:WebPartContext;
+  IconsColours: string;
 }
 
 export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IReactScrollCalendarWebPartProps> {
@@ -40,7 +40,8 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
         day: 0,
         listname: this.properties.listname,
         listurl: this.properties.listurl,
-        ctx:this.context
+        ctx:this.context,
+        IconsColours: this.properties.IconsColours
       }
     );
     ReactDom.render(element, this.domElement);
@@ -69,7 +70,13 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
                 }),
                 PropertyPaneTextField('listurl', {
                   label: "List Url"
-                })
+                }),
+                PropertyPaneTextField('IconsColours', {
+                  label: 'Icons & Colours',
+                  multiline: true,
+                  rows:15,
+                  resizable:true
+                }),
               ]
             }
           ]

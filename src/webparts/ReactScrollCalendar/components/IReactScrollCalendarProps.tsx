@@ -5,4 +5,5 @@ export default interface IReactScrollCalendarProps {
   listname:string;
   listurl:string;
   ctx: WebPartContext;
+  IconsColours: string;
 }

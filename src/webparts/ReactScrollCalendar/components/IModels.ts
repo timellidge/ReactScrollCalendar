@@ -4,9 +4,10 @@ export interface SPListData{
 
 export interface SPEventItem {
   Title:string;
+  OrganisersNote:string;
   Manager:string;
   EventType:string;
-  Location:string;
-  EventDate:string;
+  EventLocation:string;
+  StartDate:string;
   EndDate:string;
 }
