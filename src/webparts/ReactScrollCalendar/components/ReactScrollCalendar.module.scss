@@ -34,6 +34,7 @@
 
     .navigationheader {
       box-sizing: border-box;
+      height: 27px;
       // background-color: $Blue1;
 
       ul {
@@ -52,6 +53,8 @@
           color: $BlueDark-2;
           font-weight: 500;
           font-size: 0.8rem;
+          border-bottom: 3px solid white;
+          height: 1rem;
         }
         .activemonthname {
           border-bottom: 3px solid $Orange;
@@ -67,10 +70,10 @@
       display: grid;
       grid-template-columns: repeat(7, 14.25%);
       box-sizing: border-box;
-      background-color: $Grey;
+      background-color: $Blue;
       padding: 4px 0px;
       margin: 0px 16px 0 0;
-      color: $BlueDark-1;
+      color: white;
       font-weight: 500;
       text-align: center;
       font-size: 1rem;
@@ -94,59 +97,83 @@
       box-sizing: border-box;
 
       .day {
-        box-sizing: content-box;
+        box-sizing: border-box;
         border-left: 0px solid $Grey-1;
         display: table-cell;
         position: relative;
 
         h5 {
-          background-color: $Blue-2;
-          color: white;
+          background-color: $Blue1;
+          color:$BlueDark-1;
           margin: 0px;
           text-align: center;
           font-size: 0.9rem;
           padding: 3px;
           box-sizing: border-box;
-          border-right:1px solid $Grey-1;
+          border-right: 1px solid $Grey-1;
         }
 
-        .placeholder{
+        .placeholder {
           background-color: #97caeb85;
-          height:100%;
+          height: 100%;
         }
 
         .event {
+          height: 27px;
           width: 100%;
-          color: $BlueDark-2;
-          padding: 3px;
           position: absolute;
-          box-sizing: content-box;
-        }
+          box-sizing: border-box;
 
-        .event.first {
-          border-left: 3ps solid pink;
-          width: 100%;
-          color: $BlueDark-2;
-          padding: 3px;
-          position: absolute;
-          box-sizing: content-box;
+          .line {
+            height: 6px;
+            background-color: $SeaGreen;
+            margin: 10px 12% 0 0;
+            position: relative;
+          }
+
+          .linefull {
+            height: 6px;
+            background-color: $SeaGreen;
+            margin: 10px 0 0 0;
+            position: relative;
+          }
+
+          .first {
+            border: 2px solid $SeaGreen;
+            background-color: $Grey1;
+            color: $SeaGreen;
+            position: absolute;
+            width: 65px;
+            height: 100%;
+            top: 0;
+            font-weight: 700;
+            padding: 3px 0px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            text-align: center;
+          }
+          .end {
+            background-color: $SeaGreen;
+            position: absolute;
+            width: 4px;
+            height: 70%;
+            top: 3px;
+            margin-left: 87%;
+            box-sizing: border-box;
+          }
         }
 
         .event[data-row="0"] {
           margin-top: 5px;
-          background-color: $SeaGreen;
         }
         .event[data-row="1"] {
           margin-top: 35px;
-          background-color: $Red;
         }
         .event[data-row="2"] {
           margin-top: 65px;
-          background-color: $Green;
         }
         .event[data-row="3"] {
           margin-top: 90px;
-          background-color: $Yellow;
         }
       }
 
@@ -160,13 +187,22 @@
       .day[data-month="7"] h5,
       .day[data-month="9"] h5,
       .day[data-month="11"] h5 {
-        background-color: $Blue;
-        color: $Grey2;
+        background-color: $Blue2;
+        color: $BlueDark-2;
       }
 
       .day[id*="d0"],
       .day[id*="d6"] {
-        background-color:$Grey1;
+        background-color: $Grey1;
+      }
+      .overlay {
+        background-color: $Grey;
+        div {
+          width: 100%;
+          text-align: center;
+          padding-top: 40px;
+          position: absolute;
+        }
       }
     }
   }

@@ -2,8 +2,11 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export default interface IReactScrollCalendarProps {
   day: number;
-  listname:string;
-  listurl:string;
+  listurl0:string;
+  listurl1:string;
+  listurl2:string;
   ctx: WebPartContext;
-  IconsColours: string;
+  People: string;
+  Icons: string;
+  Colours: string;
 }

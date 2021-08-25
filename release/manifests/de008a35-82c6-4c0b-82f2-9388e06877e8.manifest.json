@@ -18,9 +18,9 @@
         "default": "ReactScrollCalendar"
       },
       "description": {
-        "default": "book a room"
+        "default": "see events in a color coded scrolable calendar"
       },
-      "officeFabricIconFontName": "Page",
+      "officeFabricIconFontName": "Calendar",
       "properties": {
         "description": "ReactScrollCalendar"
       }

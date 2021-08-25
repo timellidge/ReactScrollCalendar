@@ -1,11 +1,18 @@
 import styles from './ReactScrollCalendar.module.scss';
 import * as React from "react";
 import * as moment from "moment";
+
+// font awesome (font difficult more like
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUmbrellaBeach, faUserEdit, faCaretDown, faArrowAltToRight} from '@fortawesome/pro-duotone-svg-icons';
+library.add(faUmbrellaBeach, faUserEdit, faCaretDown, faArrowAltToRight ); // this make them availibe anywhere by string i think
+
 //imports specific to this Web part
 import IReactScrollCalendarProps from './IReactScrollCalendarProps';
 import DayCell from './DayCell';
 import DayHeaderCell from './DayHeaderCell';
 import NavigationCell from './NavigationCell';
+
 // Some stuff for talking to Sharepoint
 import * as Utils from "../../Utils";
 import { SPHttpClient } from '@microsoft/sp-http';
@@ -13,7 +20,7 @@ import { SPEventItem } from "./IModels";
 
 export default class ReactScrollCalendarApp extends React.Component<IReactScrollCalendarProps> {
   //build some data structures for the react components to iterate over
-  private dayNames = new Array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+  private dayNames = new Array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
   // and Months CBA with Years just yet
   private monthNames = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
   // do i need to explain this ? but its in the past at the start of the Year its my reference date
@@ -21,27 +28,21 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
   // its a calendar so we need some days to work with
   private pdays = new Array(365);
 
-  // item Category is color
-  private colours = {
-    "Toronto":    "#3681b5",
-    "Other":      "#d7e6f0",
-    "Newport Beach": "#ff6a13",
-    "Seoul":      "#ffc3a1",
-    "Hamilton":   "#ffe1d0",
-    "London":     "#e03c03",
-    "Boston":     "#ffb42f",
-    "Off Island": "#01bcb8",
-    "Sydney":     "#8ac552",
-    "Shanghai":   "#97caeb"
-  };
-  private icons = {
-    "Working":"<i class='fad fa-user-edit'></i>",
-    "Leave"  :"<i class='fad fa-umbrella-beach'></i>",
-    "Office" :""
-  };
+  //data structures for the deocration of the calendar objects
+  private people = [];
+  private colours = {};
+  private icons = {};
 
-  //just a simple array as i just need its position aka row
-  private people = ["Dave Howell", "Court Post", "Sian McAlpin", "Rhys Faulkner"];
+  private _peopleColoursIcons() {
+    if (this.props.People) {
+      const people = this.props.People.split(";");
+      this.people = people.map(p => p.trim());
+    }
+    this.colours = Utils.JSONTryParse(this.props.Colours);
+    //console.log(this.colours);
+    this.icons = Utils.JSONTryParse(this.props.Icons);
+    //console.log(this.icons);
+  }
 
   // set the statefull things my React is going to react to
   public state = {
@@ -61,16 +62,16 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
       // now we have the data we need to pop it into the state after processing that is....
       // this is the key i was stuck on ie when to add the data to state it makes sense if its in the the
       // ".then" of the getEvents method.
-      this.populateCalendar(d.value);
+      this._populateCalendar(d.value);
     });
   }
 
-  private populateCalendar(events: SPEventItem[]) {
+  private _populateCalendar(events: SPEventItem[]) {
     // now lets see about populating the days with these events
     // whilst we are at setting the events state lets populate the local days
     // so we have a diary scaffold before we add the specific events
     for (let i = 0; i < this.pdays.length; i++) {
-      this.pdays[i] = { "dayIndex": i, "Events": [] };
+      this.pdays[i] = { "dayIndex": i, "Events": [], "Overlay": "" };
     }
     console.log("DIARY ITEMS LENGTH", this.state.diaryItems.length);
     console.log(this.state.diaryItems);
@@ -81,22 +82,28 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
       // do a loop with some logic for the first day
       for (let i: number = 0; i <= eventDuration; i++) {
         // suppose we can add a day No to help with the CSS + Monday and do a ternery operator to flag the first day
-        // weekday is heavy stuff with all that momenting for every day - how about i do a mod % 7 with the i that will be much quicker
-        // also add in some decoration, icon colours etc
-        this.pdays[startIndex + i].Events.push({
-          "Title": ev.Title, "Manager": ev.Manager, "Note": ev.OrganisersNote,
-          "EventType": ev.EventType, "Location": ev.EventLocation ,
-          "Row": this.people.indexOf(ev.Manager), "Icon": this.icons[ev.EventType], "Colour":this.colours[ev.EventLocation],
-          "FirstDay":(i === 0 ? true : false), "Weekday": ((weekDay+i)%7)
-        });
+        // weekday is heavy stuff with all that momenting for every day - how about i do a mod % 7 with the i that will be much quicker also add in some decoration, icon colours etc also flag the last day
+        if (ev.EventType === "Office") {
+          console.log(ev);
+          this.pdays[startIndex + i].Overlay += (ev.Title + " ");
+        } else {
+          this.pdays[startIndex + i].Events.push({
+            "Title": ev.Title, "Manager": ev.Manager, "Note": ev.OrganisersNote,
+            "EventType": ev.EventType, "Location": ev.EventLocation,
+            "Row": this.people.indexOf(ev.Manager), "Icon": this.icons[ev.EventType], "Colour": this.colours[ev.EventLocation],
+            "FirstDay": (i === 0 ? true : false), "LastDay": (i === eventDuration ? true : false), "Weekday": ((weekDay + i) % 7),
+          });
+        }
       }
     });
     // OK Now pop that lot into state...
     this.setState({ days: this.pdays });
+    // console.log(this.pdays);
   }
 
   // OK so we are an the page now lets go get the Data
   public componentDidMount() {
+    this._peopleColoursIcons();
     this._getEvents();
   }
 
@@ -119,7 +126,7 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
           <div className={styles.calendarScrollContainer} id='scrollcontainer'>
             <div className={styles.daysContainer} id='dayscontainer'>
               {this.state.days.map((day, i) => (
-                <DayCell refDate={this.RefDate} index={i} key={i} Events={day.Events} />
+                <DayCell refDate={this.RefDate} index={i} key={i} Events={day.Events} Overlay={day.Overlay} />
               ))}
             </div>
           </div>

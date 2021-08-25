@@ -11,12 +11,18 @@ import ReactScrollCalendarApp from './components/ReactScrollCalendarApp';
 import { sp } from '@pnp/sp';
 
 export interface IReactScrollCalendarWebPartProps {
-  description: string;
-  listname: string;
-  listurl: string;
-  ctx:WebPartContext;
-  IconsColours: string;
+  listurl0: string;
+  listurl1: string;
+  listurl2: string;
+  ctx: WebPartContext;
+  People: string;
+  Icons:string;
+  Colours: string;
 }
+
+const DefaultPeople = "Dave Howell;  Sian McAlpin; Rhys Faulkner; Court Post";
+const DefaultColors = '{"Toronto":"#3681b5","Other":"#d7e6f0","Newport Beach":"#ff6a13","Seoul":"#ffc3a1","Hamilton": "#ffe1d0","London": "#e03c03","Boston": "#ffb42f","Off Island": "#01bcb8","Sydney": "#8ac552","Shanghai": "#97caeb"}';
+const DefaultIcons = '{"Working":"user-edit","Leave"  :"umbrella-beach","Office" :""}';
 
 export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IReactScrollCalendarWebPartProps> {
 
@@ -38,10 +44,13 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
       ReactScrollCalendarApp,
       {
         day: 0,
-        listname: this.properties.listname,
-        listurl: this.properties.listurl,
-        ctx:this.context,
-        IconsColours: this.properties.IconsColours
+        listurl0: this.properties.listurl0,
+        listurl1: this.properties.listurl1,
+        listurl2: this.properties.listurl2,
+        ctx:      this.context,
+        People:   this.properties.People || DefaultPeople,
+        Icons:    this.properties.Icons ||  DefaultIcons,
+        Colours:  this.properties.Colours || DefaultColors
       }
     );
     ReactDom.render(element, this.domElement);
@@ -62,20 +71,42 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
             {
               groupName: "",
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: 'description of the webpart'
+                PropertyPaneTextField('listurl0', {
+                  label: "Primary List Url",
+                  value : this.properties.listurl0
                 }),
-                PropertyPaneTextField('listname', {
-                  label: "List Name"
+                PropertyPaneTextField('listurl1', {
+                  label: "Secondary List Url",
+                  value : this.properties.listurl1,
+                  placeholder: "Provide rest end point "
                 }),
-                PropertyPaneTextField('listurl', {
-                  label: "List Url"
+                PropertyPaneTextField('listurl2', {
+                  label: "Tertiary List Url",
+                  value : this.properties.listurl2
                 }),
-                PropertyPaneTextField('IconsColours', {
-                  label: 'Icons & Colours',
+                PropertyPaneTextField('People', {
+                  label: "One person per row, separate by ';'",
+                  multiline: true,
+                  rows:5,
+                  resizable:true,
+                  value : this.properties.People,
+                  placeholder: DefaultPeople
+                }),
+                PropertyPaneTextField('Icons', {
+                  label: 'Map Types to Icons JSON',
+                  multiline: true,
+                  rows:5,
+                  resizable:true,
+                  value : this.properties.Icons,
+                  placeholder: DefaultIcons
+                }),
+                PropertyPaneTextField('Colours', {
+                  label: 'Map locations to colours JSON',
                   multiline: true,
                   rows:15,
-                  resizable:true
+                  resizable:true,
+                  value : this.properties.Colours,
+                  placeholder: DefaultColors
                 }),
               ]
             }
