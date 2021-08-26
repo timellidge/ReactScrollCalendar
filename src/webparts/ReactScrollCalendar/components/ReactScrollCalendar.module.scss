@@ -1,28 +1,36 @@
 @import "~office-ui-fabric-react/dist/sass/References.scss";
 
 .ReactScrollCalendar {
-  $BlueDark-2: #40434a;
-  $BlueDark-1: #343d56;
-  $BlueDark: #1b2952;
-  $BlueDark1: #1b2952;
-  $BlueDark2: #1b2952;
-  $Blue-2: #204d6c;
-  $Blue-1: #2c6992;
-  $Blue: #3681b5;
-  $Blue1: #afcde1;
-  $Blue2: #d7e6f0;
-  $Orange: #ff6a13;
-  $Orange1: #ffc3a1;
-  $Orange2: #ffe1d0;
-  $Grey-1: #bfb7af;
-  $Grey: #d7d2cb;
-  $Grey1: #efedea;
-  $Grey2: #f7f6f5;
-  $Red: #e03c03;
-  $Yellow: #ffb42f;
-  $SeaGreen: #01bcb8;
-  $Green: #8ac552;
-  $BlueIce: #97caeb;
+  --BlueDark-2: #40434a;
+  --BlueDark-1: #343d56;
+  --BlueDark: #1b2952;
+ --BlueDark1: #1b2952;
+  --BlueDark2: #1b2952;
+  --Blue-2: #204d6c;
+  --Blue-1: #2c6992;
+  --Blue: #3681b5;
+  --Blue1: #afcde1;
+  --Blue2: #d7e6f0;
+  --Orange: #ff6a13;
+  --Orange1: #ffc3a1;
+  --Orange2: #ffe1d0;
+  --Grey-1: #bfb7af;
+  --Grey: #d7d2cb;
+  --Grey1: #efedea;
+  --Grey2: #f7f6f5;
+  --Red-1: #A02E06;
+  --Red: #e03c03;
+  --Red1: #f6c4b3;
+  --Yellow-1: #B68225;
+  --Yellow: #ffb42f;
+  --Yellow1: #FFE8C0;
+  --SeaGreen-1:#058784;
+  --SeaGreen: #01bcb8;
+  --SeaGreen1:#B2EBEA;
+  --Green-1: #648E3D;
+  --Green: #8ac552;
+  --Green1: #DCEDCB;
+  --BlueIce: #97caeb;
 
   box-sizing: border-box;
   display: flex;
@@ -35,7 +43,7 @@
     .navigationheader {
       box-sizing: border-box;
       height: 27px;
-      // background-color: $Blue1;
+      // background-color: var(--$Blue)1;
 
       ul {
         display: flex;
@@ -47,21 +55,21 @@
         flex: 0 0 8%;
         list-style-type: none;
         text-align: center;
-        border-right: 1px solid $Grey-1;
+        border-right: 1px solid var(--Grey-1);
 
         .monthname {
-          color: $BlueDark-2;
+          color: var(--BlueDark-2);
           font-weight: 500;
           font-size: 0.8rem;
           border-bottom: 3px solid white;
           height: 1rem;
         }
         .activemonthname {
-          border-bottom: 3px solid $Orange;
-          color: $Orange;
+          border-bottom: 3px solid var(--Orange);
+          color: var(--Orange);
           font-weight: 700;
           font-size: 1rem;
-          background-color: $Blue2;
+          background-color: var(--var(--Blue)2);
           padding: 0 10px;
         }
       }
@@ -70,7 +78,7 @@
       display: grid;
       grid-template-columns: repeat(7, 14.25%);
       box-sizing: border-box;
-      background-color: $Blue;
+      background-color: var(--Blue);
       padding: 4px 0px;
       margin: 0px 16px 0 0;
       color: white;
@@ -98,71 +106,73 @@
 
       .day {
         box-sizing: border-box;
-        border-left: 0px solid $Grey-1;
+        border-left: 0px solid var(--Grey-1);
         display: table-cell;
         position: relative;
 
         h5 {
-          background-color: $Blue1;
-          color:$BlueDark-1;
+          background-color: var(--Blue1);
+          color: var(--BlueDark-1);
           margin: 0px;
           text-align: center;
           font-size: 0.9rem;
           padding: 3px;
           box-sizing: border-box;
-          border-right: 1px solid $Grey-1;
+          border-right: 1px solid var(--Grey-1);
         }
 
-        .placeholder {
-          background-color: #97caeb85;
-          height: 100%;
-        }
+
+        //the event is a fixed height container that has three main modes, it always has a line 100% width and its got a
+        // margin top so its in the middle of the event div. It can have a div with a "First" class  and or a div with an end Class
+        // these are the three elements of an event. it can span multiple days or be in one day only
+        // all the markup is built with Border, the first has a border, the line is actually a border, the end cap is a border
+        // all inheritign colours from a dummy container called eventguts, if i set a color on event guts then everythign inherits from it, so all // of the elements of the event CSS are coloured at the same time.
 
         .event {
           height: 27px;
           width: 100%;
           position: absolute;
           box-sizing: border-box;
+          .eventguts {
+            .line {
+              height:0px;
+              border-top: 5px solid;
+              border-color:inherit;
+              margin:11px 0 0 0 ;
+              position: relative;
+            }
 
-          .line {
-            height: 6px;
-            background-color: $SeaGreen;
-            margin: 10px 12% 0 0;
-            position: relative;
-          }
-
-          .linefull {
-            height: 6px;
-            background-color: $SeaGreen;
-            margin: 10px 0 0 0;
-            position: relative;
-          }
-
-          .first {
-            border: 2px solid $SeaGreen;
-            background-color: $Grey1;
-            color: $SeaGreen;
-            position: absolute;
-            width: 65px;
-            height: 100%;
-            top: 0;
-            font-weight: 700;
-            padding: 3px 0px;
-            box-sizing: border-box;
-            border-radius: 10px;
-            text-align: center;
-          }
-          .end {
-            background-color: $SeaGreen;
-            position: absolute;
-            width: 4px;
-            height: 70%;
-            top: 3px;
-            margin-left: 87%;
-            box-sizing: border-box;
+            .first {
+              background-color:whitesmoke;
+              color: black;
+              position:absolute;
+              width:70px;
+              height:100%;
+              top:0;
+              padding:3px 0px;
+              box-sizing: border-box;
+              border-radius:10px;
+              text-align:center;
+              border: 2px solid;
+              border-color:inherit
+            }
+            .end {
+              position:absolute;
+              width:10px;
+              height:10px;
+              border:5px solid;
+              border-color:inherit;
+              background-color: white;
+              border-radius: 50%;
+              top:3px;
+              margin-left: calc(100% - 20px);
+            }
           }
         }
 
+        // these are based on the person each one gets a row to themselves
+        // i suppose we can do some better logic to flaot them up but its
+        // beyoind em at the moment so one row per person it is...
         .event[data-row="0"] {
           margin-top: 5px;
         }
@@ -177,43 +187,47 @@
         }
       }
 
+      //TODO  offset for the day of the YEAR i will need to figure out how to make it dynamic
+      //TODO  so it works after Dec 31st but months to go for that :-)
       .day:first-child {
         grid-column: 5;
       }
 
+      //set the header colour for the odd months cant use a count as my unit is days not months on account of the intention to make the calendar
+      // more natural by making it scrollable
       .day[data-month="1"] h5,
       .day[data-month="3"] h5,
       .day[data-month="5"] h5,
       .day[data-month="7"] h5,
       .day[data-month="9"] h5,
       .day[data-month="11"] h5 {
-        background-color: $Blue2;
-        color: $BlueDark-2;
+        background-color: var(--Blue2);
+        color: var(--BlueDark-2);
       }
 
+      // Saturday & Sunday
       .day[id*="d0"],
       .day[id*="d6"] {
-        background-color: $Grey1;
+        background-color: var(--Grey1);
       }
+
+      //todo I may see about floatign this in front of the otehr content with  top 0 and soem opacity
+      //todo then the issue of the end div havign a white bit should dissapear
+
       .overlay {
-        background-color: $Grey;
+        background-color: rgba(197, 156, 156, 0.4);
+        position:relative;
+        width:100%;
+        height:100%;
+        top:0px;
         div {
           width: 100%;
           text-align: center;
-          padding-top: 40px;
+          padding-top: 25px;
           position: absolute;
+          background-color: transparent;
         }
       }
     }
-  }
-}
-
-:global {
-  #fixed {
-    position: absolute;
-    top: 1000px;
-    left: 200px;
-    height: 30px;
-    background-color: #8ac552;
   }
 }

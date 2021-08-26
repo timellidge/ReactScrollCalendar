@@ -26,13 +26,23 @@ export default function EventCell(props: any) {
   //return (<div className={styles.event + " " + (props.thisIsFirst ? styles.first : "")} data-row={props.iRow}> {props.thisTitle}</div>);
   const initials = getInitials(props.thisManager);
 
-  // ther aee two diffent ypes of thisngs to render based onthe first thing
-  // const inLineStyle = {"background-color" : props.thisColor};
+  //each event can have up to three elements a start a middle and an end
+  // use the booleans passed down from the app to conditionllay deisplay stuff
+  // const inLineStyle = {"background-color" : props.thisColor}; - HOW NOT TO DO IT !!!
+  //~ DO THIS INSTEAD const inLineStyle = {borderColor: props.thisColor};
+  // lets work out a colour based on location and type of event
+  // the company colours all come in three variants -1 (darker) "" the colour and "1" lighter ie red-1 red and red1
+  // so ill use the Holiday / work to set that
+  const modifier = props.thisEventType === "Working"? "": "-1";
+  const eventColor : string = `var(--${props.thisColor}${modifier})`;
+  console.log(eventColor);
 
   return (<div className={styles.event} data-row={props.iRow} title={props.thisManager + " " + props.thisLocation}>
-    {props.thisIsLast?  <div className={styles.line}></div> :  <div className={styles.linefull}></div> }
-    {props.thisIsFirst? <div className={styles.first}><FontAwesomeIcon icon={['fad', props.thisIcon]} /> {initials}</div>: "" }
-    {props.thisIsLast?  <div className={styles.end}></div> : "" }
+    <div className={ styles.eventguts } style={{borderColor: eventColor}}>
+      <div className={styles.line}></div>
+      {props.thisIsFirst? <div className={styles.first}><FontAwesomeIcon icon={['fad', props.thisIcon]} /> {initials}</div>: "" }
+      {props.thisIsLast?  <div className={styles.end}></div> : "" }
+    </div>
   </div>);
 
 }

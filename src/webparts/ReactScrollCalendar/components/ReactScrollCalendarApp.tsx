@@ -39,9 +39,9 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
       this.people = people.map(p => p.trim());
     }
     this.colours = Utils.JSONTryParse(this.props.Colours);
-    //console.log(this.colours);
+    console.log(this.colours);
     this.icons = Utils.JSONTryParse(this.props.Icons);
-    //console.log(this.icons);
+    console.log(this.icons);
   }
 
   // set the statefull things my React is going to react to
@@ -135,3 +135,4 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
     );
   }
 }
+

@@ -8,8 +8,7 @@ export interface IDayHeaderCellProps {
 }
 
 export default function DayHeaderCell(props:any) {
-    //const [count, setCount] = useState(0);
-    //THI IS THE WEEKDAY HEADERS
+    //THIS IS THE WEEKDAY HEADER IT DOES NOTHING ITS JUST SOME DIVS WITH TEXT
     return (<div className={styles.dayname} data-dayno={props.index}>{props.thisday}</div>);
 }
 

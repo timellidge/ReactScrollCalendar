@@ -21,7 +21,7 @@ export interface IReactScrollCalendarWebPartProps {
 }
 
 const DefaultPeople = "Dave Howell;  Sian McAlpin; Rhys Faulkner; Court Post";
-const DefaultColors = '{"Toronto":"#3681b5","Other":"#d7e6f0","Newport Beach":"#ff6a13","Seoul":"#ffc3a1","Hamilton": "#ffe1d0","London": "#e03c03","Boston": "#ffb42f","Off Island": "#01bcb8","Sydney": "#8ac552","Shanghai": "#97caeb"}';
+const DefaultColors = '{"Toronto":"Yellow","Other":"Red","Newport-Beach":"SeaGreen","Seoul":"SeaGreen","Hamilton":"Green","London":"Red","Boston":"Yellow","Off-Island":"Red","Sydney":"SeaGreen","Shanghai":"SeaGreen"}';
 const DefaultIcons = '{"Working":"user-edit","Leave"  :"umbrella-beach","Office" :""}';
 
 export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IReactScrollCalendarWebPartProps> {
