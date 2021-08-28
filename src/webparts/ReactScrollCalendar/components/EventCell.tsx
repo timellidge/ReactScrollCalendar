@@ -21,7 +21,7 @@ export interface IEventCellProps {
 }
 
 export default function EventCell(props: any) {
-  console.log(props); //there shoufl be no office events s suh we weeded them out highter up the tree
+  //console.log(props); //there shoufl be no office events s suh we weeded them out highter up the tree
   // look at this conditionally adding two classes on render
   //return (<div className={styles.event + " " + (props.thisIsFirst ? styles.first : "")} data-row={props.iRow}> {props.thisTitle}</div>);
   const initials = getInitials(props.thisManager);
@@ -35,7 +35,7 @@ export default function EventCell(props: any) {
   // so ill use the Holiday / work to set that
   const modifier = props.thisEventType === "Working"? "": "-1";
   const eventColor : string = `var(--${props.thisColor}${modifier})`;
-  console.log(eventColor);
+
 
   return (<div className={styles.event} data-row={props.iRow} title={props.thisManager + " " + props.thisLocation}>
     <div className={ styles.eventguts } style={{borderColor: eventColor}}>

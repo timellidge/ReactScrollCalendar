@@ -3,7 +3,6 @@ import * as ReactDom from 'react-dom';
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
-
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import IReactScrollCalendarProps from './components/IReactScrollCalendarProps';
@@ -21,11 +20,10 @@ export interface IReactScrollCalendarWebPartProps {
 }
 
 const DefaultPeople = "Dave Howell;  Sian McAlpin; Rhys Faulkner; Court Post";
-const DefaultColors = '{"Toronto":"Yellow","Other":"Red","Newport-Beach":"SeaGreen","Seoul":"SeaGreen","Hamilton":"Green","London":"Red","Boston":"Yellow","Off-Island":"Red","Sydney":"SeaGreen","Shanghai":"SeaGreen"}';
-const DefaultIcons = '{"Working":"user-edit","Leave"  :"umbrella-beach","Office" :""}';
+const DefaultColors = '{"Boston":"SeaGreen","Newport-Beach":"SeaGreen","Toronto":"SeaGreen","London":"Yellow","Other":"Yellow","Hamilton":"Green","Seoul":"Red","Sydney":"Red","Shanghai":"Red","Off-Island":"Orange"}';
+const DefaultIcons = '{"Working":"user-edit","Leave"  :"umbrella-beach","Office" :"building"}';
 
 export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IReactScrollCalendarWebPartProps> {
-
   protected onInit(): Promise<void> {
     return super.onInit().then((_) => {
       sp.setup ({

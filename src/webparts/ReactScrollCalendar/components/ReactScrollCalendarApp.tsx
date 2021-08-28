@@ -4,14 +4,15 @@ import * as moment from "moment";
 
 // font awesome (font difficult more like
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUmbrellaBeach, faUserEdit, faCaretDown, faArrowAltToRight} from '@fortawesome/pro-duotone-svg-icons';
-library.add(faUmbrellaBeach, faUserEdit, faCaretDown, faArrowAltToRight ); // this make them availibe anywhere by string i think
+import { faUmbrellaBeach, faUserEdit, faCaretDown, faArrowAltToRight, faBuilding } from '@fortawesome/pro-duotone-svg-icons';
+library.add(faUmbrellaBeach, faUserEdit, faCaretDown, faArrowAltToRight, faBuilding); // this make them availibe anywhere by string i think
 
 //imports specific to this Web part
 import IReactScrollCalendarProps from './IReactScrollCalendarProps';
 import DayCell from './DayCell';
 import DayHeaderCell from './DayHeaderCell';
 import NavigationCell from './NavigationCell';
+import Keys from './Keys';
 
 // Some stuff for talking to Sharepoint
 import * as Utils from "../../Utils";
@@ -84,7 +85,7 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
         // suppose we can add a day No to help with the CSS + Monday and do a ternery operator to flag the first day
         // weekday is heavy stuff with all that momenting for every day - how about i do a mod % 7 with the i that will be much quicker also add in some decoration, icon colours etc also flag the last day
         if (ev.EventType === "Office") {
-          console.log(ev);
+          //console.log(ev);
           this.pdays[startIndex + i].Overlay += (ev.Title + " ");
         } else {
           this.pdays[startIndex + i].Events.push({
@@ -131,6 +132,7 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
             </div>
           </div>
         </div>
+        <Keys people={this.people} icons={this.icons} colours={this.colours} />
       </div>
     );
   }

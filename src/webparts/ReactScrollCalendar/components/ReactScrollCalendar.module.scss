@@ -4,13 +4,14 @@
   --BlueDark-2: #40434a;
   --BlueDark-1: #343d56;
   --BlueDark: #1b2952;
- --BlueDark1: #1b2952;
+  --BlueDark1: #1b2952;
   --BlueDark2: #1b2952;
   --Blue-2: #204d6c;
   --Blue-1: #2c6992;
   --Blue: #3681b5;
   --Blue1: #afcde1;
   --Blue2: #d7e6f0;
+  --Orange-1: #ad480e;
   --Orange: #ff6a13;
   --Orange1: #ffc3a1;
   --Orange2: #ffe1d0;
@@ -32,8 +33,45 @@
   --Green1: #DCEDCB;
   --BlueIce: #97caeb;
 
+  --StartDay : 5;
+
   box-sizing: border-box;
-  display: flex;
+  // display: flex;
+
+  .keyscontainer{
+    position:absolute;
+    width:180px;
+    top:100px;
+    left:106%;
+    background-color: whitesmoke;
+    border: 2px solid silver;
+    border-radius: 10px 0 0 10px ;
+    padding:2px 0 20px 30px;
+    h4{margin: 10px 0px 3px 0;
+    color:var(--Blue-1)}
+    h5{margin:2px 3px;}
+    transition: 400ms ease-in;
+    .showkey{
+      position:absolute;
+      left:-37px;
+      top:30px;
+      background-color: var(--Red-1);
+      color:white;
+      transform:rotate(-90deg);
+      width:38px;
+      text-align:center;
+      padding:3px;
+      font-weight: 500;
+      font-size:1.0rem;
+      border-radius: 7px 7px 0 0 ;
+    }
+  }
+
+  .keyscontainer:hover{
+      left:85%;
+      padding: 2px 0 20px 10px;
+      transition: 400ms ease-out;
+    }
 
   .calendarContaner {
     width: 100%;
@@ -189,8 +227,9 @@
 
       //TODO  offset for the day of the YEAR i will need to figure out how to make it dynamic
       //TODO  so it works after Dec 31st but months to go for that :-)
+      //todo this can be a variable set from the code ?
       .day:first-child {
-        grid-column: 5;
+        grid-column: var(--StartDay);
       }
 
       //set the header colour for the odd months cant use a count as my unit is days not months on account of the intention to make the calendar
@@ -211,7 +250,7 @@
         background-color: var(--Grey1);
       }
 
-      //todo I may see about floatign this in front of the otehr content with  top 0 and soem opacity
+      //todo I may see about floating this in front of the other content with top 0 and some opacity
       //todo then the issue of the end div havign a white bit should dissapear
 
       .overlay {
