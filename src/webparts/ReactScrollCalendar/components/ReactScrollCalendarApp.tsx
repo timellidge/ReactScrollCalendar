@@ -62,7 +62,7 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
 
   private _getEvents() {
     //let url = this._webUrl + "/_api/web/lists/getByTitle('Events')/items";
-    let url = "https://pacificlife.sharepoint.com/sites/PLRe/SharedLookups/_api/web/lists/getByTitle('DiaryEvents')/items";
+    let url = this.props.listurl0+"/_api/web/lists/getByTitle('"+this.props.listurl1+"')/items";
     Utils.getSPData(this._client, url).then(d => {
       this.setState({ diaryItems: d.value }); // plop the data into state
       // now we have the data we need to pop it into the state after processing that is....

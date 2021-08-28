@@ -12,7 +12,6 @@ import { sp } from '@pnp/sp';
 export interface IReactScrollCalendarWebPartProps {
   listurl0: string;
   listurl1: string;
-  listurl2: string;
   ctx: WebPartContext;
   People: string;
   Icons:string;
@@ -44,7 +43,6 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
         day: 0,
         listurl0: this.properties.listurl0,
         listurl1: this.properties.listurl1,
-        listurl2: this.properties.listurl2,
         ctx:      this.context,
         People:   this.properties.People || DefaultPeople,
         Icons:    this.properties.Icons ||  DefaultIcons,
@@ -70,20 +68,17 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
               groupName: "",
               groupFields: [
                 PropertyPaneTextField('listurl0', {
-                  label: "Primary List Url",
-                  value : this.properties.listurl0
+                  label: "Site Url",
+                  value : this.properties.listurl0,
+                  placeholder: "Source Site URL"
                 }),
                 PropertyPaneTextField('listurl1', {
-                  label: "Secondary List Url",
+                  label: "List Name",
                   value : this.properties.listurl1,
-                  placeholder: "Provide rest end point "
-                }),
-                PropertyPaneTextField('listurl2', {
-                  label: "Tertiary List Url",
-                  value : this.properties.listurl2
+                  placeholder: "Library Title"
                 }),
                 PropertyPaneTextField('People', {
-                  label: "One person per row, separate by ';'",
+                  label: "Names separated by ';'",
                   multiline: true,
                   rows:5,
                   resizable:true,

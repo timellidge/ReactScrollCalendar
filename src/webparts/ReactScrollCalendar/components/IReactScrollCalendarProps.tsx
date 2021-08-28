@@ -4,7 +4,6 @@ export default interface IReactScrollCalendarProps {
   day: number;
   listurl0:string;
   listurl1:string;
-  listurl2:string;
   ctx: WebPartContext;
   People: string;
   Icons: string;
