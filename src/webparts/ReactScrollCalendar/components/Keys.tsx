@@ -19,7 +19,7 @@ export interface IKeysProps {
 export default function Keys(props: any) {
   // just display stuff - no calculations nothign special i think
   // well i will want it to fly out and it will need a tab
-  console.log("Keys ", props.people);
+ //console.log("Keys ", props.people);
   return (
     <div className={styles.keyscontainer}>
       <h4>Colours & Locations</h4>

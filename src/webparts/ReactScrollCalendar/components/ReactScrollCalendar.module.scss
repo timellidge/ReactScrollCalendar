@@ -47,6 +47,7 @@
     border: 2px solid silver;
     border-radius: 10px 0 0 10px;
     padding: 2px 0 20px 30px;
+    user-select:none;
     h4 {
       margin: 10px 0px 3px 0;
       color: var(--Blue-1);
@@ -86,6 +87,8 @@
       box-sizing: border-box;
       height: 27px;
       // background-color: var(--$Blue)1;
+      user-select:none;
+
 
       ul {
         display: flex;
@@ -127,6 +130,7 @@
       font-weight: 500;
       text-align: center;
       font-size: 1rem;
+      user-select: none;
 
       .dayname {
         border-right: 2px solid #ffffff;
@@ -151,6 +155,7 @@
         border-left: 0px solid var(--Grey-1);
         display: table-cell;
         position: relative;
+        user-select:none;
 
         h5 {
           background-color: var(--Blue1);

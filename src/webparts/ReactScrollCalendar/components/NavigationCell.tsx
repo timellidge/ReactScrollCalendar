@@ -21,11 +21,12 @@ export default function NavigationCell(props:any) {
       // but its fairly simple stuff so im not that bothered
       // I need to attach it to the react scroll component so i know where to scroll to
       const scrollTargetId = `w${wkdate.week()}d${wkdate.weekday()}`;
+      const monthRef = `MonthClicker${props.index}`;
       //console.log(scrollTargetId);
       // use the react <Link> Component tell it what its goignt to scroll in and as ive explained where to scroll to
       return (
         <li data-month={props.index}>
-            <Link className={styles.monthname } containerId='scrollcontainer' activeClass={styles.activemonthname} to={scrollTargetId} spy={true} smooth={true}>
+            <Link className={styles.monthname } id={monthRef} containerId='scrollcontainer' activeClass={styles.activemonthname} to={scrollTargetId} spy={true} smooth={true}>
           {props.thismonth}</Link>
         </li>
       );

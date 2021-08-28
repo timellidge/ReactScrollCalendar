@@ -1,5 +1,8 @@
 import styles from './ReactScrollCalendar.module.scss';
 import * as React from "react";
+import { CSSProperties } from 'react';
+
+
 import * as moment from "moment";
 
 // font awesome (font difficult more like
@@ -9,7 +12,7 @@ library.add(faUmbrellaBeach, faUserEdit, faCaretDown, faArrowAltToRight, faBuild
 
 //imports specific to this Web part
 import IReactScrollCalendarProps from './IReactScrollCalendarProps';
-import DayCell from './DayCell';
+import DayCollection from './DayCollection';
 import DayHeaderCell from './DayHeaderCell';
 import NavigationCell from './NavigationCell';
 import Keys from './Keys';
@@ -25,7 +28,9 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
   // and Months CBA with Years just yet
   private monthNames = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
   // do i need to explain this ? but its in the past at the start of the Year its my reference date
-  private RefDate = moment().startOf('year');
+  private refDate = moment().startOf('year');
+  private firstWeekday = this.refDate.weekday();
+
   // its a calendar so we need some days to work with
   private pdays = new Array(365);
 
@@ -77,7 +82,7 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
     console.log("DIARY ITEMS LENGTH", this.state.diaryItems.length);
     console.log(this.state.diaryItems);
     events.forEach(ev => {
-      const startIndex = moment(ev.StartDate).diff(this.RefDate, 'days');
+      const startIndex = moment(ev.StartDate).diff(this.refDate, 'days');
       const weekDay = moment(ev.StartDate).weekday();
       const eventDuration = moment(ev.EndDate).diff(ev.StartDate, 'days');
       // do a loop with some logic for the first day
@@ -106,11 +111,17 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
   public componentDidMount() {
     this._peopleColoursIcons();
     this._getEvents();
+    // set a use effect that happens (ONCE) after render in this case i want to click on this month
+
   }
 
   public render(): React.ReactElement<IReactScrollCalendarProps> {
+
+    // super excited by this i can define a variable then add it to a container for use within it do it as i render
+    // so i cns set the calendar to have the correct day of the week.
+    const mystyle = { "--StartDay": this.firstWeekday } as CSSProperties;
     return (
-      <div className={styles.ReactScrollCalendar}>
+      <div className={styles.ReactScrollCalendar} style={ mystyle }>
         <div className={styles.calendarContaner}>
           <div className={styles.navigationheader}>
             <ul>
@@ -124,13 +135,7 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
               <DayHeaderCell thisday={dayname} index={i} key={i} />
             ))}
           </div>
-          <div className={styles.calendarScrollContainer} id='scrollcontainer'>
-            <div className={styles.daysContainer} id='dayscontainer'>
-              {this.state.days.map((day, i) => (
-                <DayCell refDate={this.RefDate} index={i} key={i} Events={day.Events} Overlay={day.Overlay} />
-              ))}
-            </div>
-          </div>
+          <DayCollection days={this.state.days} refDate={this.refDate} />
         </div>
         <Keys people={this.people} icons={this.icons} colours={this.colours} />
       </div>
