@@ -1,20 +1,20 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
-  "solution": {
-    "name": "react-scroll-calendar-client-side-solution",
-    "id": "f55d8043-5f2b-4358-a667-7890e8adcc6a",
-    "version": "1.0.1.0",
-    "includeClientSideAssets": true,
-    "isDomainIsolated": false,
-    "developer": {
-      "name": "",
-      "websiteUrl": "",
-      "privacyUrl": "",
-      "termsOfUseUrl": "",
-      "mpnId": ""
+    "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+    "solution": {
+        "name": "react-scroll-calendar-client-side-solution",
+        "id": "f55d8043-5f2b-4358-a667-7890e8adcc6a",
+        "version": "1.0.0.60",
+        "includeClientSideAssets": true,
+        "isDomainIsolated": false,
+        "developer": {
+            "name": "Tim Ellidge",
+            "websiteUrl": "",
+            "privacyUrl": "",
+            "termsOfUseUrl": "JSP AGREEMENT",
+            "mpnId": ""
+        }
+    },
+    "paths": {
+        "zippedPackage": "solution/react-scroll-calendar.sppkg"
     }
-  },
-  "paths": {
-    "zippedPackage": "solution/react-scroll-calendar.sppkg"
-  }
 }

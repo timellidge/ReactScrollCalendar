@@ -33,7 +33,7 @@ export default function EventCell(props: any) {
   // lets work out a colour based on location and type of event
   // the company colours all come in three variants -1 (darker) "" the colour and "1" lighter ie red-1 red and red1
   // so ill use the Holiday / work to set that
-  const modifier = props.thisEventType === "Working"? "": "-1";
+  const modifier = props.thisEventType === "Working"? "": "1";
   const eventColor : string = `var(--${props.thisColor}${modifier})`;
 
 

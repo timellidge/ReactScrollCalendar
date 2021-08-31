@@ -63,6 +63,7 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
   private _getEvents() {
     //let url = this._webUrl + "/_api/web/lists/getByTitle('Events')/items";
     let url = this.props.listurl0+"/_api/web/lists/getByTitle('"+this.props.listurl1+"')/items";
+    console.log("THE URL", url);
     Utils.getSPData(this._client, url).then(d => {
       this.setState({ diaryItems: d.value }); // plop the data into state
       // now we have the data we need to pop it into the state after processing that is....
@@ -112,7 +113,17 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
     this._peopleColoursIcons();
     this._getEvents();
     // set a use effect that happens (ONCE) after render in this case i want to click on this month
+  }
 
+  public componentDidUpdate(){
+    console.log("OOH an UPDATE");
+    Utils.isValidSPSite(this.props.listurl0).then(d =>{
+      if (d === true) {
+        console.log ("the url is valid");
+      } else {
+        console.log ("keep trying");
+      }
+    });
   }
 
   public render(): React.ReactElement<IReactScrollCalendarProps> {

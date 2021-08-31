@@ -8,6 +8,8 @@ import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-bas
 import IReactScrollCalendarProps from './components/IReactScrollCalendarProps';
 import ReactScrollCalendarApp from './components/ReactScrollCalendarApp';
 import { sp } from '@pnp/sp';
+// Used to display version information
+import { PropertyPaneWebPartInformation } from '@pnp/spfx-property-controls/lib/PropertyPaneWebPartInformation';
 
 export interface IReactScrollCalendarWebPartProps {
   listurl0: string;
@@ -40,13 +42,12 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
     const element: React.ReactElement<IReactScrollCalendarProps> = React.createElement(
       ReactScrollCalendarApp,
       {
-        day: 0,
         listurl0: this.properties.listurl0,
         listurl1: this.properties.listurl1,
         ctx:      this.context,
         People:   this.properties.People || DefaultPeople,
         Icons:    this.properties.Icons ||  DefaultIcons,
-        Colours:  this.properties.Colours || DefaultColors
+        Colours:  this.properties.Colours || DefaultColors,
       }
     );
     ReactDom.render(element, this.domElement);
@@ -57,6 +58,8 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    // Import package version
+    const packageSolution: any = require("../../../config/package-solution.json");
     return {
       pages: [
         {
@@ -70,12 +73,12 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
                 PropertyPaneTextField('listurl0', {
                   label: "Site Url",
                   value : this.properties.listurl0,
-                  placeholder: "Source Site URL"
+                  placeholder: "https://pacificlife.sharepoint.com/sites/PLRe/SharedLookups"
                 }),
                 PropertyPaneTextField('listurl1', {
                   label: "List Name",
                   value : this.properties.listurl1,
-                  placeholder: "Library Title"
+                  placeholder: "DiaryEvents"
                 }),
                 PropertyPaneTextField('People', {
                   label: "Names separated by ';'",
@@ -101,6 +104,10 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
                   value : this.properties.Colours,
                   placeholder: DefaultColors
                 }),
+                PropertyPaneWebPartInformation({
+                  description: "Version: " + (<any>packageSolution).solution.version,
+                  key: 'webPartInfoId'
+              })
               ]
             }
           ]
