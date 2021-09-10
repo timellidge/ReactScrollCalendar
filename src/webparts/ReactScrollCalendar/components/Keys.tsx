@@ -21,6 +21,7 @@ export default function Keys(props: any) {
   // well i will want it to fly out and it will need a tab
  //console.log("Keys ", props.people);
   return (
+    <>
     <div className={styles.keyscontainer}>
       <h4>Colours & Locations</h4>
       {Object.keys(props.colours).map(cityName =>
@@ -35,6 +36,8 @@ export default function Keys(props: any) {
         ))}
       <div id='keytab' className={styles.showkey}>Key</div>
     </div>
+    <div className={styles.keymask}>&nbsp;</div>
+    </>
   );
 }
 

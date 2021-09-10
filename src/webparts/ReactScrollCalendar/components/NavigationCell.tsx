@@ -6,7 +6,7 @@ import * as moment from "moment";
 
 // Note
 export interface INavigationCellProps {
-  thismonth: string;
+  month: string;
   index: number;
 }
 
@@ -27,7 +27,7 @@ export default function NavigationCell(props:any) {
       return (
         <li data-month={props.index}>
             <Link className={styles.monthname } id={monthRef} containerId='scrollcontainer' activeClass={styles.activemonthname} to={scrollTargetId} spy={true} smooth={true}>
-          {props.thismonth}</Link>
+          {props.month}</Link>
         </li>
       );
 }

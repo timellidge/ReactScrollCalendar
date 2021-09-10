@@ -10,7 +10,6 @@ import '@pnp/sp/items';
 // import { IRenderListDataAsStreamResult } from '@pnp/sp/lists';
 // import { Web } from '@pnp/sp/webs';
 // import { FieldTypes, IFieldInfo } from '@pnp/sp/fields';
-// import * as CamlBuilder from 'camljs';
 // import { IDropdownOption } from 'office-ui-fabric-react';
 // import { IViewInfo } from '@pnp/sp/views';
 // import { IItemUpdateResult } from '@pnp/sp/items';

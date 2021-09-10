@@ -37,12 +37,20 @@
 
   box-sizing: border-box;
   // display: flex;
+  .keymask {
+    position: absolute;
+    width: 220px;
+    top: 30px;
+    height: 700px;
+    left: 100%;
+    background-color: white;
+  }
 
   .keyscontainer {
     position: absolute;
     width: 180px;
-    top: 100px;
-    left: 108%;
+    top: 60px;
+    left: 100%;
     background-color: whitesmoke;
     border: 2px solid silver;
     border-radius: 10px 0 0 10px;
@@ -223,13 +231,16 @@
           margin-top: 5px;
         }
         .event[data-row="1"] {
-          margin-top: 35px;
+          margin-top: 30px;
         }
         .event[data-row="2"] {
-          margin-top: 65px;
+          margin-top: 55px;
         }
         .event[data-row="3"] {
-          margin-top: 90px;
+          margin-top: 75px;
+        }
+        .event[data-row="3"] {
+          margin-top: 100px;
         }
       }
 

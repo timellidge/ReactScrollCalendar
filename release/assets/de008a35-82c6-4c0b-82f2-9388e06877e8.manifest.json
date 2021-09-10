@@ -2,7 +2,7 @@
   "id": "de008a35-82c6-4c0b-82f2-9388e06877e8",
   "alias": "ReactScrollCalendarWebPart",
   "componentType": "WebPart",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifestVersion": 2,
   "requiresCustomScript": false,
   "supportedHosts": [
@@ -34,7 +34,7 @@
     "scriptResources": {
       "react-scroll-calendar-web-part": {
         "type": "path",
-        "path": "react-scroll-calendar-web-part_618c1b5cb6b1831cab33.js"
+        "path": "react-scroll-calendar-web-part_9832c7eca714cb556c56.js"
       },
       "@microsoft/sp-property-pane": {
         "type": "component",

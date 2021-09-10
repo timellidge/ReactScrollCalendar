@@ -13,8 +13,8 @@ library.add(faUmbrellaBeach, faUserEdit, faCaretDown, faArrowAltToRight, faBuild
 //imports specific to this Web part
 import IReactScrollCalendarProps from './IReactScrollCalendarProps';
 import DayCollection from './DayCollection';
-import DayHeaderCell from './DayHeaderCell';
-import NavigationCell from './NavigationCell';
+import DayHeader from './DayHeader';
+import NavigationHeader from './NavigationHeader';
 import Keys from './Keys';
 
 // Some stuff for talking to Sharepoint
@@ -129,23 +129,13 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
   public render(): React.ReactElement<IReactScrollCalendarProps> {
 
     // super excited by this i can define a variable then add it to a container for use within it do it as i render
-    // so i cns set the calendar to have the correct day of the week.
+    // so i cns set the calendar to have the correct day of the week., sort of CSS via code
     const mystyle = { "--StartDay": this.firstWeekday } as CSSProperties;
     return (
       <div className={styles.ReactScrollCalendar} style={ mystyle }>
         <div className={styles.calendarContaner}>
-          <div className={styles.navigationheader}>
-            <ul>
-              {this.monthNames.map((monthName, i) => (
-                <NavigationCell key={i} thismonth={monthName} index={i} />
-              ))}
-            </ul>
-          </div>
-          <div className={styles.calendarheader}>
-            {this.dayNames.map((dayname, i) => (
-              <DayHeaderCell thisday={dayname} index={i} key={i} />
-            ))}
-          </div>
+          <NavigationHeader months={this.monthNames} />
+          <DayHeader days={this.dayNames} />
           <DayCollection days={this.state.days} refDate={this.refDate} />
         </div>
         <Keys people={this.people} icons={this.icons} colours={this.colours} />

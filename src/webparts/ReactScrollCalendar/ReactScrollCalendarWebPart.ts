@@ -20,7 +20,7 @@ export interface IReactScrollCalendarWebPartProps {
   Colours: string;
 }
 
-const DefaultPeople = "Dave Howell;  Sian McAlpin; Rhys Faulkner; Court Post";
+const DefaultPeople = "Dave Howell;  Sian McAlpin; Rhys Faulkner; Court Post; Michelle Moloney";
 const DefaultColors = '{"Boston":"SeaGreen","Newport-Beach":"SeaGreen","Toronto":"SeaGreen","London":"Yellow","Other":"Yellow","Hamilton":"Green","Seoul":"Red","Sydney":"Red","Shanghai":"Red","Off-Island":"Orange"}';
 const DefaultIcons = '{"Working":"user-edit","Leave"  :"umbrella-beach","Office" :""}';
 
@@ -45,9 +45,9 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
         listurl0: this.properties.listurl0,
         listurl1: this.properties.listurl1,
         ctx:      this.context,
-        People:   this.properties.People || DefaultPeople,
-        Icons:    this.properties.Icons ||  DefaultIcons,
-        Colours:  this.properties.Colours || DefaultColors,
+        People:   this.properties.People,
+        Icons:    this.properties.Icons,
+        Colours:  this.properties.Colours,
       }
     );
     ReactDom.render(element, this.domElement);
