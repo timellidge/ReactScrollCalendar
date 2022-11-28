@@ -1,8 +1,6 @@
 
 import styles from './ReactScrollCalendar.module.scss';
 import * as React from "react";
-import {Link} from 'react-scroll';
-import * as moment from "moment";
 import NavigationCell  from "./NavigationCell";
 
 // Note
@@ -17,9 +15,7 @@ export default function NavigationHeader(props:any) {
   return (
     <div className={styles.navigationheader}>
       <ul>
-        {this.monthNames.map((monthName, i) => (
-          <NavigationCell key={i} month={monthName} index={i} />
-        ))}
+        {props.months.map((monthName, i) => (<NavigationCell key={i} month={monthName} index={i} />))}
       </ul>
     </div>
   );

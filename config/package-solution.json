@@ -3,7 +3,7 @@
     "solution": {
         "name": "react-scroll-calendar-client-side-solution",
         "id": "f55d8043-5f2b-4358-a667-7890e8adcc6a",
-        "version": "1.0.0.70",
+        "version": "1.0.0.71",
         "includeClientSideAssets": true,
         "isDomainIsolated": false,
         "developer": {
