@@ -1,9 +1,9 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
     "solution": {
-        "name": "react-scroll-calendar-client-side-solution",
+        "name": "scroll-calendar",
         "id": "f55d8043-5f2b-4358-a667-7890e8adcc6a",
-        "version": "1.0.1.00",
+        "version": "1.0.1.02",
         "includeClientSideAssets": true,
         "isDomainIsolated": false,
         "developer": {

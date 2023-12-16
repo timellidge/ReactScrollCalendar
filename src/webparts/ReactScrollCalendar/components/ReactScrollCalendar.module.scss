@@ -35,6 +35,108 @@
 
   --StartDay: 5;
 
+  .container{
+    display: grid;
+    grid-template-columns: repeat(7, 200px);
+    grid-auto-rows: 200px;
+  }
+
+
+  .day{
+    background-color:whitesmoke;
+    border-left: 0.25px solid silver;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 40px;
+  }
+
+  .day .event{
+    display: grid;
+    grid-template-columns: 30px 5px 1fr 4px;
+    grid-template-rows: 12px 5px 12px;
+    grid-template-areas:
+      "icon start name end"
+      "bar . . ."
+      ". . desc .";
+  }
+
+  .event div{
+    box-sizing: border-box;
+  }
+
+  .day .event{
+    display: grid;
+    grid-template-rows: 12px 5px 12px;
+
+
+  .AM{
+    grid-template-columns: 30px 5px 1fr 4px 50%;
+    grid-template-areas:
+      "icon start name end ."
+      "bar . . . ."
+      ". . desc . .";
+  }
+
+  .PM{
+    grid-template-columns: 50% 30px 5px 1fr 4px;
+    grid-template-areas:
+      ". icon start name end"
+      ". bar . . ."
+      ". . . desc .";
+  }
+
+  .eventicon{
+    grid-area:icon;
+    grid-row-end: span 3;
+    font-size:1.4rem;
+    color: goldenrod;
+    align-self:center;
+    justify-self:fill;
+    background-color: whitesmoke;
+  }
+  .eventstart{
+    grid-area:start;
+    grid-row-end: span 3;
+    background-color: #cc1111;
+    border-top: 4px solid whitesmoke;
+    border-bottom: 4px solid whitesmoke;
+  }
+
+  .eventname{
+    grid-area:name;
+    font-size:16px;
+    margin-top:-6px;
+    overflow: hidden;
+  }
+
+  .eventdesc{
+    grid-area:desc;
+    font-size:12px;
+    display:none;
+    z-index:20;
+  }
+
+  .eventbar{
+    grid-area: bar;
+    grid-column-end: span 4;
+    background-color: #cc1111;
+  }
+
+  .eventend {
+    grid-area:end;
+    grid-row-end: span 3;
+    background-color: #cc1111;
+  }
+
+  .row0 {grid-row-start: 0;}
+  .row1 {grid-row-start: 1;}
+  .row2 {grid-row-start: 2;}
+  .row3 {grid-row-start: 3;}
+  .row4 {grid-row-start: 4;}
+  .row5 {grid-row-start: 5;}
+}
+
+
   box-sizing: border-box;
   // display: flex;
   .keymask {
@@ -55,7 +157,8 @@
     border: 2px solid silver;
     border-radius: 10px 0 0 10px;
     padding: 2px 0 20px 30px;
-    user-select:none;
+
+
     h4 {
       margin: 10px 0px 3px 0;
       color: var(--Blue-1);
@@ -95,7 +198,7 @@
       box-sizing: border-box;
       height: 27px;
       // background-color: var(--$Blue)1;
-      user-select:none;
+
 
 
       ul {
@@ -138,7 +241,7 @@
       font-weight: 500;
       text-align: center;
       font-size: 1rem;
-      user-select: none;
+
 
       .dayname {
         border-right: 2px solid #ffffff;
@@ -163,7 +266,7 @@
         border-left: 0px solid var(--Grey-1);
         display: table-cell;
         position: relative;
-        user-select:none;
+
 
         h5 {
           background-color: var(--Blue1);
@@ -239,7 +342,7 @@
         .event[data-row="3"] {
           margin-top: 75px;
         }
-        .event[data-row="3"] {
+        .event[data-row="4"] {
           margin-top: 100px;
         }
       }

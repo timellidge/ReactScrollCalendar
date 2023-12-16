@@ -3,6 +3,7 @@ export interface SPListData{
 }
 
 export interface SPEventItem {
+  Id:number;
   Title:string;
   OrganisersNote:string;
   Manager:string;

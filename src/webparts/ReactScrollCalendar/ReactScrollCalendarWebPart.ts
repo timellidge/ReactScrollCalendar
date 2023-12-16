@@ -78,7 +78,7 @@ export default class ReactScrollCalendarWebPart extends BaseClientSideWebPart<IR
                 PropertyPaneTextField('listurl1', {
                   label: "List Name",
                   value : this.properties.listurl1,
-                  placeholder: "DiaryEvents"
+                  placeholder: "Diary"
                 }),
                 PropertyPaneTextField('People', {
                   label: "Names separated by ';'",

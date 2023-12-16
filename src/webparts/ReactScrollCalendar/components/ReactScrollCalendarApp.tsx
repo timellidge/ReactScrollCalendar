@@ -35,9 +35,9 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
   private pdays = new Array(365);
 
   //data structures for the deocration of the calendar objects
-  private people = [];
+  private people  = [];
   private colours = {};
-  private icons = {};
+  private icons   = {};
 
   private _peopleColoursIcons() {
     if (this.props.People) {
@@ -69,44 +69,96 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
       // now we have the data we need to pop it into the state after processing that is....
       // this is the key i was stuck on ie when to add the data to state it makes sense if its in the the
       // ".then" of the getEvents method.
-      this._populateCalendar(d.value);
+      this._populateCalendar2(d.value);
     });
   }
 
-  private _populateCalendar(events: SPEventItem[]) {
+  private _checkToEnd( start: number, end: number, row:number) {
+    let ok = true;
+    for (let i = start; i <= end; i++) {
+      if (this.pdays[i].Rows[row] !== null) {
+        ok = false;
+        break;
+      }
+    }
+    return ok;
+  }
+
+  private _markToEnd( start: number, end: number, row:number, evid: number) {
+    //render the actual event whilst i'm here ?
+    // or just add the draw to a queue to be rendered later?
+    for (let i = start; i <= end; i++) {
+      this.pdays[i].Rows[row] = evid;
+    }
+    return row;
+  }
+
+  private _doFragment(week: number, day: number, dur: number, ev: SPEventItem) {
+    let daysIndex: number = week * 7 + day;
+
+    const thisrowend: number = daysIndex + (Math.min(6, day + dur));
+    let ok: boolean = false;
+    // try all of the rows to find one that fits
+    for (let r = 0; r <= 9; r++) {
+      ok = this._checkToEnd(daysIndex, thisrowend, r);
+      if (ok) {
+        this._markToEnd(daysIndex, thisrowend, r, ev.Id);
+        // mark up the first day of the event in the week with the event data
+        this.pdays[daysIndex].Events.push({
+          "Title": ev.Title, "Manager": ev.Manager, "Note": ev.OrganisersNote,
+          "EventType": ev.EventType, "Location": ev.EventLocation,
+          "Person": this.people.indexOf(ev.Manager),
+          "Icon": this.icons[ev.EventType],
+          "Colour": this.colours[ev.EventLocation],
+          "Row": r,
+          "RowEnd": thisrowend
+        });
+        console.log("event added", this.pdays[daysIndex].Events);
+        break;
+      }
+    }
+
+    // we had 10 does to fit it in and it dodnt work out boo hoo
+    if (!ok) {
+      console.log("DIDNT FIT");
+    }
+    // do a test here for the end of ther event and if not call _doFragment again
+    if(daysIndex + dur < thisrowend){
+      this._doFragment(week+1, 0, dur-(6-day), ev);
+    }
+  }
+
+  private _populateCalendar2(events: SPEventItem[]) {
     // now lets see about populating the days with these events
     // whilst we are at setting the events state lets populate the local days
-    // so we have a diary scaffold before we add the specific events
+    // so we have a diary scaffold before we add the specific events not sure of the events as its got a lot of metadata in it
+    // includign row so we are probably ok
     for (let i = 0; i < this.pdays.length; i++) {
-      this.pdays[i] = { "dayIndex": i, "Events": [], "Overlay": "" };
+      const dayRows = new Array(10).fill(null);
+      this.pdays[i] = { "dayIndex": i, "Events": [], "Rows": dayRows, "Overlay": "" };
     }
+
     console.log("DIARY ITEMS LENGTH", this.state.diaryItems.length);
     console.log(this.state.diaryItems);
+
     events.forEach(ev => {
       const startIndex = moment(ev.StartDate).diff(this.refDate, 'days');
       const weekDay = moment(ev.StartDate).weekday();
       const eventDuration = moment(ev.EndDate).diff(ev.StartDate, 'days');
-      // do a loop with some logic for the first day
-      for (let i: number = 0; i <= eventDuration; i++) {
-        // suppose we can add a day No to help with the CSS + Monday and do a ternery operator to flag the first day
-        // weekday is heavy stuff with all that momenting for every day - how about i do a mod % 7 with the i that will be much quicker also add in some decoration, icon colours etc also flag the last day
-        if (ev.EventType === "Office") {
-          //console.log(ev);
-          this.pdays[startIndex + i].Overlay += (ev.Title + " ");
-        } else {
-          this.pdays[startIndex + i].Events.push({
-            "Title": ev.Title, "Manager": ev.Manager, "Note": ev.OrganisersNote,
-            "EventType": ev.EventType, "Location": ev.EventLocation,
-            "Row": this.people.indexOf(ev.Manager), "Icon": this.icons[ev.EventType], "Colour": this.colours[ev.EventLocation],
-            "FirstDay": (i === 0 ? true : false), "LastDay": (i === eventDuration ? true : false), "Weekday": ((weekDay + i) % 7),
-          });
-        }
+
+      if (ev.EventType === "Office") {
+        // if its an office event we just pop an overlay on the day
+        this.pdays[startIndex].Overlay += (ev.Title + " ");
+      } else {
+        // if its not an office we need to do some work to fit it in
+        this._doFragment(moment(ev.StartDate).week(), weekDay, eventDuration, ev);
       }
     });
     // OK Now pop that lot into state...
     this.setState({ days: this.pdays });
     // console.log(this.pdays);
   }
+
 
   // OK so we are an the page now lets go get the Data
   public componentDidMount() {
@@ -116,7 +168,6 @@ export default class ReactScrollCalendarApp extends React.Component<IReactScroll
   }
 
   public componentDidUpdate(){
-    console.log("OOH an UPDATE");
     Utils.isValidSPSite(this.props.listurl0).then(d =>{
       if (d === true) {
         console.log ("the url is valid");
