@@ -3,7 +3,7 @@
     "solution": {
         "name": "scroll-calendar",
         "id": "f55d8043-5f2b-4358-a667-7890e8adcc6a",
-        "version": "1.0.1.02",
+        "version": "1.0.1.4",
         "includeClientSideAssets": true,
         "isDomainIsolated": false,
         "developer": {
